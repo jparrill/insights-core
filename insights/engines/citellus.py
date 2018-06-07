@@ -7,7 +7,7 @@ class CitellusEngine(object):
     """
 
     def __init__(self, sosreport):
-        print "Loaded {} Engine".format(self.__class__.__name__)
+        print "Loading Engine: {}".format(self.__class__.__name__)
         print os.path.abspath(sosreport)
 
 
