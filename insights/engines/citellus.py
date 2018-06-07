@@ -12,6 +12,11 @@ class CitellusEngine(object):
         print os.path.abspath(sosreport)
 
 
+    def get_plugins(self):
+        # TODO: Still failling because I need to preload the plugins from Citellus
+        pass
+
+
     def exec_engine(self, path=False, plugins=False, forcerun=False, include=None, exclude=None):
         
         results = citellus.docitellus(path=path, plugins=plugins, forcerun=forcerun, include=include, exclude=exclude, quiet=True)
