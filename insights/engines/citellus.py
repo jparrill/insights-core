@@ -38,9 +38,18 @@ class CitellusEngine(object):
 
     def exec_engine(self, path=False, plugins=False, forcerun=False, include=None, exclude=None):
         plugins = self.get_plugins(include, filter=True)
-        #ids = citellus.getids(plugins=plugins, include=include, exclude=exclude)
-        results = citellus.docitellus(path=path, plugins=plugins, forcerun=forcerun, include=include, exclude=exclude, quiet=True)
+        raw_results = citellus.docitellus(path=path, plugins=plugins, forcerun=forcerun, include=include, exclude=exclude, quiet=True)
 
+        formatted_results, stats = self.formatter(raw_results)
+
+        #return self.type_instantiation(new_dict)
+        return formatted_results, stats
+
+
+    def check_rc(self, rc):
+        return self.rc_types[rc]
+
+    def formatter(self, results):
         # Process plugin output from multiple plugins to be returned as a dictionary of ID's for each plugin
         new_dict = {}
         
@@ -86,12 +95,7 @@ class CitellusEngine(object):
             new_dict[name] = dict(results[item])
         del results
 
-        #return self.type_instantiation(new_dict)
         return new_dict, stats
-
-
-    def check_rc(self, rc):
-        return self.rc_types[rc]
 
     def type_instantiation(self, results):
         # Instantiate dict into classes types decalrated on init
