@@ -40,7 +40,7 @@ class CitellusEngine(object):
         plugins = self.get_plugins(include, filter=True)
         raw_results = citellus.docitellus(path=path, plugins=plugins, forcerun=forcerun, include=include, exclude=exclude, quiet=True)
 
-        formatted_results, stats = self.formatter(raw_results)
+        formatted_results, stats = self.formatter(raw_results, plugins)
 
         #return self.type_instantiation(new_dict)
         return formatted_results, stats
@@ -49,7 +49,7 @@ class CitellusEngine(object):
     def check_rc(self, rc):
         return self.rc_types[rc]
 
-    def formatter(self, results):
+    def formatter(self, results, plugins):
         # Process plugin output from multiple plugins to be returned as a dictionary of ID's for each plugin
         new_dict = {}
         
@@ -71,6 +71,11 @@ class CitellusEngine(object):
         stats['skip'] = {}
         stats['skip']['count'] = 0
         stats['skip']['fail'] = 0
+
+        # Rules 
+        stats['loaded_rule'] = {}
+        stats['loaded_rule']['count'] = len(plugins)
+        stats['loaded_rule']['fail'] = 0
 
         for item in results:
             name = results[item]['name']
@@ -94,6 +99,8 @@ class CitellusEngine(object):
             # Result
             new_dict[name] = dict(results[item])
         del results
+
+        stats['skip']['count'] = stats['loaded_rule']['count'] - stats['skip']['count']
 
         return new_dict, stats
 
