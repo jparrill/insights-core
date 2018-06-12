@@ -82,8 +82,6 @@ class CitellusEngine(object):
             results[item]['plugin'] = os.path.relpath(results[item]['plugin'])
             results[item]['status'] = self.check_rc(results[item]['result']['rc'])
             results[item]['engine'] = str.capitalize(self.engine)
-            if not results[item]['bugzilla']:
-                del results[item]['bugzilla']
             if results[item]['result']['rc'] == 20:
                 results[item]['error'] = results[item]['result']['err']
             elif results[item]['result']['rc'] == 30:
